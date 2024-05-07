@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.http import Http404
 # Create your views here.
 
 posts = [
@@ -54,6 +54,11 @@ def index(request):
 
 def post_detail(request, id):
     template = 'blog/detail.html'
+    id_list = []
+    for post in posts:
+        id_list.append(post['id'])
+    if id not in id_list:
+        raise Http404
     context = {'post': posts[id]}
     return render(request, template, context)
 
